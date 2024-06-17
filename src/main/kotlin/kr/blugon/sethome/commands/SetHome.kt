@@ -35,9 +35,9 @@ fun BrigadierCommand.setHomeCommand() {
             executes {
                 val homeName = getString(this, "home")
                 if(player.homes[homeName] != null) {
-                    player.sendMessage("${MiniColor.YELLOW}${homeName}${MiniColor.WHITE}은(는) 이미 존재하는 집입니다\n" +
-                            "덮어 씌우려면 '/sethome $homeName confirm'을 입력해 주세요\n" +
-                            "${MiniColor.RED}※주의※ 한번 덮어 씌운 집은 되돌릴 수 없습니다".miniMessage)
+                    player.sendMessage(("${MiniColor.YELLOW}${homeName}${MiniColor.YELLOW.close}은(는) 이미 존재하는 집입니다 \n " +
+                                "덮어 씌우려면 '/sethome $homeName confirm'을 입력해 주세요\n" +
+                                "${MiniColor.RED}※주의※ 한번 덮어 씌운 집은 되돌릴 수 없습니다").miniMessage)
                     return@executes false
                 }
                 player.homes[homeName] = player.location

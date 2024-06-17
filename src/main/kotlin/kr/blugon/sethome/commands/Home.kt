@@ -44,11 +44,11 @@ fun BrigadierCommand.homeCommand() {
                     return@executes false
                 }
                 if(player.homes[homeName] == null) {
-                    player.sendMessage("${MiniColor.YELLOW}$homeName${MiniColor.RED}가 존재하지 않습니다".miniMessage)
+                    player.sendMessage("${MiniColor.YELLOW}$homeName${MiniColor.RED}(이)가 존재하지 않습니다".miniMessage)
                     return@executes false
                 }
                 player.teleport(player.homes[homeName]!!)
-                player.sendMessage("${MiniColor.YELLOW}$homeName${MiniColor.WHITE}로 순간이동 했습니다".miniMessage)
+                player.sendMessage("${MiniColor.YELLOW}$homeName${MiniColor.WHITE}(으)로 순간이동 했습니다".miniMessage)
                 true
             }
         }

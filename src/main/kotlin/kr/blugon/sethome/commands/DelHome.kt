@@ -33,11 +33,11 @@ fun BrigadierCommand.deleteHomeCommand() {
             executes {
                 val homeName = getString(this, "home")
                 if(player.homes[homeName] == null) {
-                    player.sendMessage("${MiniColor.YELLOW}$homeName${MiniColor.RED}가 존재하지 않습니다".miniMessage)
+                    player.sendMessage("${MiniColor.YELLOW}$homeName${MiniColor.RED}(이)가 존재하지 않습니다".miniMessage)
                     return@executes false
                 }
                 player.homes.remove(homeName)
-                player.sendMessage("${MiniColor.YELLOW}$homeName${MiniColor.WHITE}을 삭제했습니다".miniMessage)
+                player.sendMessage("${MiniColor.YELLOW}$homeName${MiniColor.WHITE}을(를) 삭제했습니다".miniMessage)
                 homeYaml.set("${player.uniqueId}.${homeName}", null)
                 player.saveHomes()
                 true
