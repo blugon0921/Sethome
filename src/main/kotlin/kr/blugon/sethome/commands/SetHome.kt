@@ -1,42 +1,50 @@
 package kr.blugon.sethome.commands
 
+import com.mojang.brigadier.arguments.StringArgumentType.getString
+import com.mojang.brigadier.arguments.StringArgumentType.string
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import io.papermc.paper.command.brigadier.CommandSourceStack
+import kr.blugon.kotlinbrigadier.BrigadierCommand
+import kr.blugon.kotlinbrigadier.player
+import kr.blugon.minicolor.MiniColor
+import kr.blugon.minicolor.MiniColor.Companion.miniMessage
 import kr.blugon.sethome.Sethome.Companion.homes
 import kr.blugon.sethome.Sethome.Companion.saveHomes
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.command.Command
 import org.bukkit.entity.Player
+import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
-class SetHome(private val player: Player, private val command: Command, private val label: String, private val args: Array<out String>): ChildCommand {
+fun BrigadierCommand.setHomeCommand() {
+    register("sethome", "Set home") {
+        require { sender is Player }
+        then("home" to string()) {
+            "confirm" {
+                executes {
+                    val homeName = getString(this, "home")
+                    player.homes[homeName] = player.location
+                    if(player.homes[homeName] != null) player.sendMessage("현재 위치를 ${MiniColor.YELLOW}${homeName}${MiniColor.YELLOW.close}에 덮어 씌웠습니다".miniMessage)
+                    else player.sendMessage("현재 위치를 ${MiniColor.YELLOW}${homeName}${MiniColor.YELLOW.close}에 저장했습니다".miniMessage)
+                    player.saveHomes()
+                    return@executes true
+                }
+            }
 
-    override fun onCommand() {
-        if(command.name != "sethome") return
-        if(args.size == 2) {
-            if(args[1] != "confirm") return player.sendMessage(text("${args[1]}은 잘못된 인수입니다").color(NamedTextColor.RED))
-            player.homes[args[0]] = player.location
-            if(player.homes[args[0]] != null) player.sendMessage(text("현재 위치를 ").append(text(args[0]).color(NamedTextColor.YELLOW)).append(text("에 덮어 씌웠습니다").color(NamedTextColor.WHITE)))
-            else player.sendMessage(text("현재 위치를 ").append(text(args[0]).color(NamedTextColor.YELLOW)).append(text("에 저장했습니다").color(NamedTextColor.WHITE)))
-            player.saveHomes()
-            return
+            executes {
+                val homeName = getString(this, "home")
+                if(player.homes[homeName] != null) {
+                    player.sendMessage("${MiniColor.YELLOW}${homeName}${MiniColor.WHITE}은(는) 이미 존재하는 집입니다\n" +
+                            "덮어 씌우려면 '/sethome $homeName confirm'을 입력해 주세요\n" +
+                            "${MiniColor.RED}※주의※ 한번 덮어 씌운 집은 되돌릴 수 없습니다".miniMessage)
+                    return@executes false
+                }
+                player.homes[homeName] = player.location
+                player.sendMessage("현재 위치를 ${MiniColor.YELLOW}${homeName}${MiniColor.YELLOW.close}에 저장했습니다".miniMessage)
+                player.saveHomes()
+                true
+            }
         }
-        if(player.homes[args[0]] != null) {
-            return player.sendMessage(
-                text(args[0]).color(NamedTextColor.YELLOW)
-                    .append(text("은 이미 존재 하는 집입니다").color(NamedTextColor.WHITE))
-                    .append(text("\n덮어 씌우려면 '/sethome ${args[0]} confirm'을 입력해 주세요").color(NamedTextColor.WHITE))
-                    .append(text("\n※주의※ 한번 덮어 씌운 집은 되돌릴 수 없습니다").color(NamedTextColor.RED))
-            )
-        }
-        player.homes[args[0]] = player.location
-        player.sendMessage(text("현재 위치를 ").append(text(args[0]).color(NamedTextColor.YELLOW)).append(text("에 저장했습니다").color(NamedTextColor.WHITE)))
-        player.saveHomes()
     }
-
-    override val tabCompleteValues: MutableList<String>
-        get() {
-            if(command.name != "sethome") return Collections.emptyList()
-            return if(args.size == 2) arrayListOf("confirm")
-            else Collections.emptyList()
-        }
 }

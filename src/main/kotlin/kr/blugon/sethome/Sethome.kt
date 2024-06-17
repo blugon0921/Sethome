@@ -1,6 +1,6 @@
 package kr.blugon.sethome
 
-import kr.blugon.sethome.commands.RunCommand
+import kr.blugon.sethome.commands.registerCommands
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.configuration.file.YamlConfiguration
@@ -57,15 +57,7 @@ class Sethome : JavaPlugin(), Listener {
             }
         }
 
-        registerCommand("sethome", "home", "delhome")
-    }
-    private fun registerCommand(vararg commands: String) {
-        commands.forEach { command ->
-            getCommand(command)?.apply {
-                this.setExecutor(RunCommand())
-                this.tabCompleter = RunCommand()
-            }
-        }
+        registerCommands()
     }
 
     override fun onDisable() {

@@ -7,10 +7,10 @@ libraries:
   - org.jetbrains.kotlin:kotlin-stdlib:${KotlinVersion}
   - org.jetbrains.kotlin:kotlin-reflect:${KotlinVersion}
 
-commands:
-  sethome:
-    description: "Set Home"
-  delhome:
-    description: "Delete home"
-  home:
-    description: "Teleport to home"
+#commands:
+#  sethome:
+#    description: "Set Home"
+#  delhome:
+#    description: "Delete home"
+#  home:
+#    description: "Teleport to home"
