@@ -3,6 +3,7 @@ package kr.blugon.sethome.commands
 import com.mojang.brigadier.arguments.StringArgumentType.getString
 import com.mojang.brigadier.arguments.StringArgumentType.string
 import kr.blugon.kotlinbrigadier.BrigadierCommand
+import kr.blugon.kotlinbrigadier.getValue
 import kr.blugon.kotlinbrigadier.player
 import kr.blugon.minicolor.MiniColor
 import kr.blugon.minicolor.MiniColor.Companion.miniMessage
@@ -20,25 +21,16 @@ fun BrigadierCommand.deleteHomeCommand() {
     register("delhome", "Delete home") {
         require { sender is Player }
         then("home" to string()) {
-            builder.suggests { context, suggestionsBuilder ->
-                val nowArg = context.input.split(" ").getOrElse(1) {""}
-                suggestionsBuilder.apply {
-                    for (home in context.player.homes) {
-                        if(home.key.lowercase().startsWith(nowArg.lowercase())) {
-                            this.suggest(home.key)
-                        }
-                    }
-                }.buildFuture()
-            }
+            suggests { player.homes.keys.toList() }
             executes {
-                val homeName = getString(this, "home")
-                if(player.homes[homeName] == null) {
-                    player.sendMessage("${MiniColor.YELLOW}$homeName${MiniColor.RED}(이)가 존재하지 않습니다".miniMessage)
+                val home: String by it
+                if(player.homes[home] == null) {
+                    player.sendRichMessage("${MiniColor.YELLOW}$home${MiniColor.RED}(이)가 존재하지 않습니다")
                     return@executes false
                 }
-                player.homes.remove(homeName)
-                player.sendMessage("${MiniColor.YELLOW}$homeName${MiniColor.WHITE}을(를) 삭제했습니다".miniMessage)
-                homeYaml.set("${player.uniqueId}.${homeName}", null)
+                player.homes.remove(home)
+                player.sendRichMessage("${MiniColor.YELLOW}$home${MiniColor.WHITE}을(를) 삭제했습니다")
+                homeYaml.set("${player.uniqueId}.${home}", null)
                 player.saveHomes()
                 true
             }
