@@ -27,8 +27,7 @@ dependencies {
     paperweight.paperDevBundle("${mcVersion}-R0.1-SNAPSHOT")
     implementation("kr.blugon:plugin-utils:latest.release")
     implementation("kr.blugon:mini-color:latest.release")
-//    implementation("kr.blugon:kotlin-brigadier:latest.release")
-    implementation("kr.blugon:kotlin-brigadier:1.1.1")
+    implementation("kr.blugon:kotlin-brigadier:latest.release")
 }
 
 extra.apply {

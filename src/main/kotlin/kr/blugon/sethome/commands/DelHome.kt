@@ -21,12 +21,17 @@ fun BrigadierCommand.deleteHomeCommand() {
     register("delhome", "Delete home") {
         require { sender is Player }
         then("home" to string()) {
-            suggests { player.homes.keys.toList() }
+            suggests {
+                mutableListOf<String>().apply {
+                    player.homes.keys.forEach {
+                        this.add("\"${it}\"")
+                    }
+                }
+            }
             executes {
                 val home: String by it
                 if(player.homes[home] == null) {
                     player.sendRichMessage("${MiniColor.YELLOW}$home${MiniColor.RED}(이)가 존재하지 않습니다")
-                    return@executes false
                 }
                 player.homes.remove(home)
                 player.sendRichMessage("${MiniColor.YELLOW}$home${MiniColor.WHITE}을(를) 삭제했습니다")
