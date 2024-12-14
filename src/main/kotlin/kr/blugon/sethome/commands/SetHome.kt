@@ -41,7 +41,6 @@ fun BrigadierCommand.setHomeCommand() {
                 player.homes[home] = player.location
                 player.sendRichMessage("현재 위치를 ${MiniColor.YELLOW}${home}${MiniColor.YELLOW.close}에 저장했습니다")
                 player.saveHomes()
-                true
             }
         }
     }

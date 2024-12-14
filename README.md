@@ -1,7 +1,7 @@
 # Sethome Plugin
 
 
-[![Sethome](https://img.shields.io/badge/Sethome-1.0.2-blue.svg)]()
+[![Sethome](https://img.shields.io/badge/Sethome-1.0.5-blue.svg)]()
 <br><br>
 [![Java](https://img.shields.io/badge/Java-21-FF7700.svg?logo=java)]()
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0.0-186FCC.svg?logo=kotlin)]()

@@ -13,7 +13,7 @@ java {
 }
 
 val buildPath = File("D:/Files/Minecraft/Servers/Captive/plugins")
-val mcVersion = "1.21"
+val mcVersion = "1.21.4"
 val kotlinVersion = kotlin.coreLibrariesVersion
 
 repositories {
@@ -25,7 +25,7 @@ dependencies {
     compileOnly(kotlin("stdlib"))
     compileOnly(kotlin("reflect"))
     paperweight.paperDevBundle("${mcVersion}-R0.1-SNAPSHOT")
-    implementation("kr.blugon:plugin-utils:latest.release")
+//    implementation("kr.blugon:plugin-utils:latest.release")
     implementation("kr.blugon:mini-color:latest.release")
     implementation("kr.blugon:kotlin-brigadier:latest.release")
 }

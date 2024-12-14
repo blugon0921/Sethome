@@ -1,17 +1,13 @@
 package kr.blugon.sethome.commands
 
-import com.mojang.brigadier.arguments.StringArgumentType
-import com.mojang.brigadier.arguments.StringArgumentType.getString
 import com.mojang.brigadier.arguments.StringArgumentType.string
 import kr.blugon.kotlinbrigadier.BrigadierCommand
 import kr.blugon.kotlinbrigadier.getValue
 import kr.blugon.kotlinbrigadier.player
 import kr.blugon.minicolor.MiniColor
-import kr.blugon.minicolor.MiniColor.Companion.miniMessage
 import kr.blugon.sethome.Sethome.Companion.homes
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import java.util.*
 
 fun BrigadierCommand.homeCommand() {
     register("home", "Teleport to home") {
@@ -19,9 +15,7 @@ fun BrigadierCommand.homeCommand() {
         then("home" to string()) {
             suggests {
                 mutableListOf<String>().apply {
-                    player.homes.keys.forEach {
-                        this.add("\"${it}\"")
-                    }
+                    this.addAll(player.homes.keys)
                     this.add("RespawnPoint")
                 }
             }
@@ -37,7 +31,6 @@ fun BrigadierCommand.homeCommand() {
                 }
                 player.teleport(player.homes[home]!!)
                 player.sendRichMessage("${MiniColor.YELLOW}$home${MiniColor.WHITE}(으)로 순간이동 했습니다")
-                true
             }
         }
     }
